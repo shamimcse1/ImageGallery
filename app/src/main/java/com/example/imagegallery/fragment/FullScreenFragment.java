@@ -37,7 +37,6 @@ public class FullScreenFragment extends Fragment {
         if (bundle != null) {
             url = bundle.getString("key");
             Glide.with(view.getContext()).load(url)
-                    .timeout(6000)
                     .placeholder(R.drawable.placeholder).into(imageView);
         }
 

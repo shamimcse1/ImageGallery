@@ -3,16 +3,7 @@ package com.example.imagegallery.fragment;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.imagegallery.ApiClient;
 import com.example.imagegallery.ImagesResponse;
 import com.example.imagegallery.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +36,6 @@ public class MainFragment extends Fragment {
 
     private List<ImagesResponse> list = new ArrayList<>();
     private GridView gridView;
-
-
     public MainFragment() {
         // Required empty public constructor
     }
@@ -55,7 +43,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -64,6 +51,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         getAllImages();
         gridView = view.findViewById(R.id.gridview);
+        list = new ArrayList<>();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,7 +70,6 @@ public class MainFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-
         return view;
     }
 
@@ -97,6 +84,7 @@ public class MainFragment extends Fragment {
                 if (response.isSuccessful()) {
                     String massage = "Request Success";
                     list = response.body();
+
                     CustomAdapter adapter = new CustomAdapter(list, getContext());
                     gridView.setAdapter(adapter);
                     Toast.makeText(getContext(), massage, Toast.LENGTH_SHORT).show();
@@ -116,10 +104,9 @@ public class MainFragment extends Fragment {
     }
 
     class CustomAdapter extends BaseAdapter {
-        private List<ImagesResponse> imagesResponseList;
-        private Context context;
-        private LayoutInflater layoutInflater;
-
+        public List<ImagesResponse> imagesResponseList;
+        public Context context;
+        public LayoutInflater layoutInflater;
 
         public CustomAdapter(List<ImagesResponse> imagesResponseList, Context context) {
             this.imagesResponseList = imagesResponseList;
@@ -153,12 +140,15 @@ public class MainFragment extends Fragment {
 
             String imageUrl = imagesResponseList.get(i).getUrl();
             Log.d("Url", imageUrl);
-            name.setText(imagesResponseList.get(i).getAuthor());
-            Glide.with(view.getContext()).load(imageUrl)
-                    .timeout(6000)
-                    .placeholder(R.drawable.placeholder).into(imageView);
 
-            // Picasso.get().load(imageUrl).into(imageView);
+            name.setText(imagesResponseList.get(i).getAuthor());
+            try {
+                Glide.with(view.getContext())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.placeholder).into(imageView);
+            }catch (Exception e){
+                Log.d("Error",e.getMessage().toString());
+            }
 
             return view;
         }

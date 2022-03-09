@@ -6,6 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ApiInterface {
-    @GET("v2/list/")
+    @GET("/v2/list")
     Call<List<ImagesResponse>> getAllImage();
 }

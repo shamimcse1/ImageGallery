@@ -1,35 +1,38 @@
 package com.example.imagegallery;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ImagesResponse {
-    private  int id;
+    @SerializedName("id")
+    @Expose
+    private String id;
+
+    @SerializedName("author")
+    @Expose
     private String author;
+
+    @SerializedName("width")
+    @Expose
+    private Integer width;
+
+    @SerializedName("height")
+    @Expose
+    private Integer height;
+
+    @SerializedName("url")
+    @Expose
     private String url;
-    private String download_url;
-    private String width;
-    private String height;
 
+    @SerializedName("download_url")
+    @Expose
+    private String downloadUrl;
 
-    public String getWidth() {
-        return width;
-    }
-
-    public void setWidth(String width) {
-        this.width = width;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,11 +44,35 @@ public class ImagesResponse {
         this.author = author;
     }
 
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }

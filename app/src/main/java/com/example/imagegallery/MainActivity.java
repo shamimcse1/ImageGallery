@@ -1,23 +1,15 @@
 package com.example.imagegallery;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.example.imagegallery.fragment.MainFragment;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getAllImages();
         fragment();
     }
 
@@ -61,29 +52,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void getAllImages() {
-
-        Call<List<ImagesResponse>> imageResponse = ApiClient.getInterface().getAllImage();
-
-        imageResponse.enqueue(new Callback<List<ImagesResponse>>() {
-            @Override
-            public void onResponse(Call<List<ImagesResponse>> call, Response<List<ImagesResponse>> response) {
-
-                if (response.isSuccessful()) {
-                    String massage = "Request Success";
-                    Toast.makeText(MainActivity.this, massage, Toast.LENGTH_SHORT).show();
-                } else {
-                    String massage = "an error occurred. try again";
-                    Toast.makeText(MainActivity.this, "Error With" + massage, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ImagesResponse>> call, Throwable t) {
-                String massage = t.getLocalizedMessage();
-                Log.d("Tag", massage);
-                Toast.makeText(MainActivity.this, "Error With" + massage, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
